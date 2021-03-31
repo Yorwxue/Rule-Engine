@@ -10,7 +10,21 @@ def templates(environment):
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
 
 
+def conditions(environment):
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 10000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 10000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 50000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 50000)")
+
+
 def A11(env, particular_acc_no, parameters_dict):
+    """
+
+    :param env:
+    :param particular_acc_no: one particular ACCOUNT_NO to run rule A11
+    :param parameters_dict: dictionary of parameters of thresholds
+    :return:
+    """
     Thresh_MaxAmtOfTotalWithdraw = parameters_dict[
         "Thresh_MaxAmtOfTotalWithdraw"] if "Thresh_MaxAmtOfTotalWithdraw" in parameters_dict else 0
     Thresh_MaxAmtOfTotalDeposit = parameters_dict[
@@ -27,6 +41,13 @@ def A11(env, particular_acc_no, parameters_dict):
 
 
 def A12(env, particular_pname, parameters_dict):
+    """
+
+    :param env:
+    :param particular_pname: one particular PERSON_ID to run rule A12
+    :param parameters_dict: dictionary of parameters of thresholds
+    :return:
+    """
     Thresh_MaxAmtOfTotalWithdraw = parameters_dict[
         "Thresh_MaxAmtOfTotalWithdraw_Customer"] if "Thresh_MaxAmtOfTotalWithdraw_Customer" in parameters_dict else 0
     Thresh_MaxAmtOfTotalDeposit = parameters_dict[
@@ -101,10 +122,11 @@ if __name__ == '__main__':
         env.build(raw_rule_strings)
 
     # set conditions
-    env.assert_string("(Thresh_MaxAmtOfTotalWithdraw 10000)")
-    env.assert_string("(Thresh_MaxAmtOfTotalDeposit 10000)")
-    env.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 50000)")
-    env.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 50000)")
+    conditions(env)
+    parameters_dict = dict()
+    for fact in env.facts():
+        if "Thresh" in fact.template.name:
+            parameters_dict[fact.template.name] = fact[0]
 
     # execute
     env.assert_string("(Init-1)")
