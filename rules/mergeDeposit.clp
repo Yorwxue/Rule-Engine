@@ -10,4 +10,5 @@
             (bind ?deposit-sum (+ ?deposit-sum ?f:AMOUNT))))
     (modify ?a (deposit ?deposit-sum))
     (retract ?ptr)
+    (assert (mergeDeposit-done))
 )
