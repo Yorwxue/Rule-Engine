@@ -5,6 +5,11 @@ import clips
 from utils.etl import node_loader, genTemplate, genFacts
 
 
+def templates(environment):
+    environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
+    environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
+
+
 if __name__ == '__main__':
     env = clips.Environment()
     facts_filedir = os.path.join(os.path.abspath("."), "facts")
@@ -26,6 +31,8 @@ if __name__ == '__main__':
         with open(filepath, "r") as fr:
             templateString = fr.read()
         env.build(templateString)
+    # extra-template definition
+    templates(env)
 
     # load facts
     facts_file_list = [filename for filename in file_list if "facts" in filename]
@@ -64,11 +71,13 @@ if __name__ == '__main__':
         env.build(raw_rule_strings)
 
     # execute
+    env.assert_string("(Init-1)")
     print("Number of activated rules: %d" % env.run())
 
     # show result
     for fact in env.facts():
-        if fact.template.name == "person-data":
+        patricular = "account-data"
+        if fact.template.name == patricular:
             print(fact)
 
     print("done")
