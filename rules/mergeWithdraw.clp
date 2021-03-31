@@ -10,5 +10,5 @@
             (bind ?withdraw-sum (+ ?withdraw-sum ?f:AMOUNT))))
     (modify ?a (withdraw ?withdraw-sum))
     (retract ?ptr)
-    (assert (mergewithdraw-done))
+    (assert (mergeWithdraw-done))
 )
