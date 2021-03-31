@@ -70,16 +70,22 @@ if __name__ == '__main__':
         raw_rule_strings = (" ".join(raw_rule_strings_list)).replace("\n", "")
         env.build(raw_rule_strings)
 
+    # set conditions
+    env.assert_string("(Thresh_MaxAmtOfTotalWithdraw 10000)")
+    env.assert_string("(Thresh_MaxAmtOfTotalDeposit 10000)")
+    env.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 50000)")
+    env.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 50000)")
+
     # execute
     env.assert_string("(Init-1)")
     print("Number of activated rules: %d" % env.run())
 
-    # show result
-    for fact in env.facts():
-        # patricular = "account-data"
-        patricular = "person-data"
-        if fact.template.name == patricular:
-            if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
-                print(fact)
+    # # show result
+    # for fact in env.facts():
+    #     # patricular = "account-data"
+    #     patricular = "person-data"
+    #     if fact.template.name == patricular:
+    #         if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
+    #             print(fact)
 
     print("done")
