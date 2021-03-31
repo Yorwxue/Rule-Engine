@@ -89,16 +89,13 @@ def genFacts(node_key_list, node_feature_dict_list, templateName="", valid_filte
     :param slotNameTransform: a dict of correlation to old slot-names and new slot-names, ex {oldSlotName: newSlotName}
     :return: list of fact-strings
     """
-    if not ID_title:
-        print("ID_title can not be empty, set ID_title to default value: 'ID'")
-        ID_title = "ID"
     data_list = list()
     for node_key, node_feature_dict in zip(node_key_list, node_feature_dict_list):
         data_line = "(%s %s %s %s)\n" % (
             "%s" % (templateName if templateName else (node_key.split("::")[0])),
-            "(%s %s)" % (
+            ("(%s %s)" % (
                 slotNameTransform[ID_title] if ID_title in slotNameTransform else ID_title,
-                genFactString((node_key.split("::"))[-1])),
+                genFactString((node_key.split("::"))[-1]))) if ID_title else "",
             " ".join(["(%s %s)" % (
                 slotNameTransform[key] if key in slotNameTransform else key,
                 genFactString(str(node_feature_dict[key]))) for key in node_feature_dict]),
@@ -119,7 +116,7 @@ if __name__ == "__main__":
     os.makedirs(facts_filedir, exist_ok=True)
 
     # 金流資料
-    # """
+    """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_002_金流資料.CSV"
     node_key_list, node_feature_dict_list, title_list = node_loader(filepath=filepath, node_label="flow-data", node_id_title="TX_ID", filters={"TX_DATE": "2019/12/31"})
 
@@ -135,10 +132,48 @@ if __name__ == "__main__":
         fw.writelines(facts_list)
     # """
 
+    # 理專基本資料
+    # """
+    filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_007_理專基本資料.CSV"
+    node_key_list, node_feature_dict_list, _ = node_loader(
+        filepath=filepath, node_label="person-data", node_id_title="AGENT_NO",
+        title_list=["SNAP_YYYYMM", "AGENT_ID", "ACCOUNT_NO", "BRANCH_NAME"],
+        filters={"SNAP_YYYYMM": "201912"})
+
+    # load template
+    extraSlot = {"JOB": "理專", "AGE": "NoData", "DATE_OF_BIRTH": "NoData"}
+    slotNameTransform = {"AGENT_ID": "PERSON_ID"}
+
+    # share template with customers
+
+    # load facts
+    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="", extraSlot=extraSlot, slotNameTransform=slotNameTransform)
+    with open(os.path.join(facts_filedir, "facts-person-agent.txt"), "w") as fw:
+        fw.writelines(facts_list)
+    # """
+
+    # 理專帳戶資料
+    # """
+    filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_007_理專基本資料.CSV"
+    node_key_list, node_feature_dict_list, _ = node_loader(
+        filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
+        title_list=["SNAP_YYYYMM", "AGENT_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
+        filters={"SNAP_YYYYMM": "201912"})
+    extraSlot = {"withdraw": 0, "deposit": 0}
+    slotNameTransform = {"AGENT_ID": "owner"}
+
+    # share template with customers
+
+    # load facts
+    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="ACCOUNT_NO", extraSlot=extraSlot, slotNameTransform=slotNameTransform)
+    with open(os.path.join(facts_filedir, "facts-account-agent.txt"), "w") as fw:
+        fw.writelines(facts_list)
+    # """
+
     # 客戶基本
     # """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_005_個人客戶基本資料.CSV"
-    node_key_list, node_feature_dict_list, title_list = node_loader(
+    node_key_list, node_feature_dict_list, _ = node_loader(
         filepath=filepath, node_label="person-data", node_id_title="CUST_ID",
         title_list=["SNAP_YYYYMM", "ACCOUNT_NO", "BRANCH_NAME", "JOB", "DATE_OF_BIRTH", "AGE"],
         filters={"SNAP_YYYYMM": "201912"})
@@ -158,7 +193,7 @@ if __name__ == "__main__":
         fw.writelines(facts_list)
     # """
 
-    # 帳戶資料
+    # 客戶帳戶資料
     # """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_005_個人客戶基本資料.CSV"
     node_key_list, node_feature_dict_list, title_list = node_loader(
