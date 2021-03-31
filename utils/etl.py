@@ -47,23 +47,23 @@ def node_loader(filepath, node_label, node_id_title, filters={}, title_list=["__
     return node_key_list, node_feature_dict_list, title_list
 
 
-def genTemplate(templateName, slotNames, ID_title="ID", extraSlot=[]):
+def genTemplate(templateName, slotNames, multiSlotNames=[], extraSlot=[], extraMultiSlot=[], slotNameTransform={}):
     """
     generate template-string for clips
     :param templateName: string of name of template
     :param slotNames: list of slotnames
-    :param ID_title: slot name for unique ID
+    :param multiSlotNames: list of names of multislot
     :param extraSlot: a list of slots names to append
+    :param extraMultiSlot: a list of multislot names to append
+    :param slotNameTransform: a dict of correlation to old slot-names and new slot-names, ex {oldSlotName: newSlotName}
     :return: string of clips template
     """
-    if not ID_title:
-        print("ID_title can not be empty, set ID_title to default value: 'ID'")
-        ID_title = "ID"
-    template_string = """(deftemplate %s (slot %s) %s %s)""" % (
+    template_string = """(deftemplate %s %s %s %s %s)""" % (
         templateName,
-        ID_title,
-        " ".join(["(slot %s)" % slotName for slotName in slotNames]),
-        " ".join(["(slot %s)" % slotName for slotName in extraSlot])
+        " ".join(["(slot %s)" % (slotNameTransform[slotName] if slotName in slotNameTransform else slotName) for slotName in slotNames]),
+        " ".join(["(multislot %s)" % (slotNameTransform[slotName] if slotName in slotNameTransform else slotName) for slotName in multiSlotNames]),
+        " ".join(["(slot %s)" % slotName for slotName in extraSlot]),
+        " ".join(["(multislot %s)" % slotName for slotName in extraMultiSlot])
     )
     return template_string
 
@@ -77,7 +77,7 @@ def genFactString(factString):
     return factString.strip().replace(" ", "_").replace(";", "_")
 
 
-def genFacts(node_key_list, node_feature_dict_list, templateName="", valid_filter=None, invalid_filter=None, ID_title="ID", extraSlot={}):
+def genFacts(node_key_list, node_feature_dict_list, templateName="", valid_filter=None, invalid_filter=None, ID_title="ID", extraSlot={}, slotNameTransform={}):
     """
     generate fact-strings for clips
     :param node_key_list:
@@ -86,6 +86,7 @@ def genFacts(node_key_list, node_feature_dict_list, templateName="", valid_filte
     :param invalid_filter: a string that must NOT appear in fact string, default is None
     :param ID_title: slot name for unique ID
     :param extraSlot: a dict of slots to append, ex {slotName: defaultValue}
+    :param slotNameTransform: a dict of correlation to old slot-names and new slot-names, ex {oldSlotName: newSlotName}
     :return: list of fact-strings
     """
     if not ID_title:
@@ -96,7 +97,9 @@ def genFacts(node_key_list, node_feature_dict_list, templateName="", valid_filte
         data_line = "(%s %s %s %s)\n" % (
             "%s" % (templateName if templateName else (node_key.split("::")[0])),
             "(%s %s)" % (ID_title, genFactString((node_key.split("::"))[-1])),
-            " ".join(["(%s %s)" % (key, genFactString(str(node_feature_dict[key]))) for key in node_feature_dict]),
+            " ".join(["(%s %s)" % (
+                slotNameTransform[key] if key in slotNameTransform else key,
+                genFactString(str(node_feature_dict[key]))) for key in node_feature_dict]),
             " ".join(["(%s %s)" % (key, genFactString(str(extraSlot[key]))) for key in extraSlot])
         )
         if valid_filter:
@@ -114,12 +117,13 @@ if __name__ == "__main__":
     os.makedirs(facts_filedir, exist_ok=True)
 
     # 金流資料
-    """
+    # """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_002_金流資料.CSV"
     node_key_list, node_feature_dict_list, title_list = node_loader(filepath=filepath, node_label="flow-data", node_id_title="TX_ID", filters={"TX_DATE": "2019/12"})
 
     # load template
-    templateString = genTemplate(templateName="flow-data", slotNames=title_list, ID_title="TX_ID")
+    title_list.append("TX_ID")
+    templateString = genTemplate(templateName="flow-data", slotNames=title_list)
     with open(os.path.join(facts_filedir, "template-flow.txt"), "w") as fw:
         fw.write(templateString)
 
@@ -130,14 +134,16 @@ if __name__ == "__main__":
     # """
 
     # 客戶基本
-    """
+    # """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_005_個人客戶基本資料.CSV"
-    node_key_list, node_feature_dict_list, title_list = node_loader(filepath=filepath, node_label="person-data",
-                                                                    node_id_title="CUST_ID",
-                                                                    filters={"SNAP_YYYYMM": "201912"})
+    node_key_list, node_feature_dict_list, title_list = node_loader(
+        filepath=filepath, node_label="person-data", node_id_title="CUST_ID",
+        title_list=["SNAP_YYYYMM", "ACCOUNT_NO", "BRANCH_NAME", "JOB", "DATE_OF_BIRTH", "AGE"],
+        filters={"SNAP_YYYYMM": "201912"})
 
     # load template
-    templateString = genTemplate(templateName="person-data", slotNames=title_list, ID_title="CUST_ID")
+    title_list.append("CUST_ID")
+    templateString = genTemplate(templateName="person-data", slotNames=title_list)
     with open(os.path.join(facts_filedir, "template-person.txt"), "w") as fw:
         fw.write(templateString)
 
@@ -150,17 +156,23 @@ if __name__ == "__main__":
     # 帳戶資料
     # """
     filepath = "/home/clliao/workspace/fubon/dataset/POC/POC_驗證/驗證_005_個人客戶基本資料.CSV"
-    node_key_list, node_feature_dict_list, title_list = node_loader(filepath=filepath, node_label="account-data",
-                                                                    node_id_title="ACCOUNT_NO",
-                                                                    filters={"SNAP_YYYYMM": "201912"})
+    node_key_list, node_feature_dict_list, title_list = node_loader(
+        filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
+        title_list=["SNAP_YYYYMM", "CUST_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
+        filters={"SNAP_YYYYMM": "201912"})
     extraSlot = {"withdraw": 0, "deposit": 0}
+    slotNameTransform = {"CUST_ID": "owner"}
     # load template
-    templateString = genTemplate(templateName="account-data", slotNames=title_list, ID_title="ACCOUNT_NO", extraSlot=list(extraSlot.keys()))
+    templateString = genTemplate(
+        templateName="account-data",
+        slotNames=["SNAP_YYYYMM", "CUST_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
+        multiSlotNames=["ACCOUNT_NO"],
+        extraSlot=list(extraSlot.keys()), slotNameTransform=slotNameTransform)
     with open(os.path.join(facts_filedir, "template-account.txt"), "w") as fw:
         fw.write(templateString)
 
     # load facts
-    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="ACCOUNT_NO", extraSlot=extraSlot)
+    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="ACCOUNT_NO", extraSlot=extraSlot, slotNameTransform=slotNameTransform)
     with open(os.path.join(facts_filedir, "facts-account.txt"), "w") as fw:
         fw.writelines(facts_list)
     # """
