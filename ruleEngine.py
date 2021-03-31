@@ -76,8 +76,10 @@ if __name__ == '__main__':
 
     # show result
     for fact in env.facts():
-        patricular = "account-data"
+        # patricular = "account-data"
+        patricular = "person-data"
         if fact.template.name == patricular:
-            print(fact)
+            if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
+                print(fact)
 
     print("done")

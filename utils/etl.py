@@ -141,7 +141,7 @@ if __name__ == "__main__":
         filters={"SNAP_YYYYMM": "201912"})
 
     # load template
-    extraSlot = {"JOB": "理專", "AGE": "NoData", "DATE_OF_BIRTH": "NoData"}
+    extraSlot = {"JOB": "理專", "AGE": "NoData", "DATE_OF_BIRTH": "NoData", "withdraw": 0, "deposit": 0}
     slotNameTransform = {"AGENT_ID": "PERSON_ID"}
 
     # share template with customers
@@ -180,15 +180,17 @@ if __name__ == "__main__":
 
     # load template
     slotNameTransform = {"CUST_ID": "PERSON_ID"}
+    extraSlot = {"withdraw": 0, "deposit": 0}
     templateString = genTemplate(
         templateName="person-data",
         slotNames=["SNAP_YYYYMM", "BRANCH_NAME", "JOB", "DATE_OF_BIRTH", "AGE", "CUST_ID"],
+        extraSlot=list(extraSlot.keys()),
         multiSlotNames=["ACCOUNT_NO"], slotNameTransform=slotNameTransform)
     with open(os.path.join(facts_filedir, "template-person.txt"), "w") as fw:
         fw.write(templateString)
 
     # load facts
-    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="CUST_ID", slotNameTransform=slotNameTransform)
+    facts_list = genFacts(node_key_list, node_feature_dict_list, ID_title="CUST_ID", extraSlot=extraSlot, slotNameTransform=slotNameTransform)
     with open(os.path.join(facts_filedir, "facts-person.txt"), "w") as fw:
         fw.writelines(facts_list)
     # """
