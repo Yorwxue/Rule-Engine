@@ -10,6 +10,36 @@ def templates(environment):
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
 
 
+def A11(env, particular_acc_no, parameters_dict):
+    Thresh_MaxAmtOfTotalWithdraw = parameters_dict[
+        "Thresh_MaxAmtOfTotalWithdraw"] if "Thresh_MaxAmtOfTotalWithdraw" in parameters_dict else 0
+    Thresh_MaxAmtOfTotalDeposit = parameters_dict[
+        "Thresh_MaxAmtOfTotalDeposit"] if "Thresh_MaxAmtOfTotalDeposit" in parameters_dict else 0
+    for fact in env.facts():
+        if fact.template.name == "account-data":
+            if fact["ACCOUNT_NO"] == particular_acc_no:
+                owner = fact["owner"]
+                withdraw = fact["withdraw"]
+                deposit = fact["deposit"]
+                if (withdraw >= Thresh_MaxAmtOfTotalWithdraw) or (deposit >= Thresh_MaxAmtOfTotalDeposit):
+                    print("ALERT: ACCOUNT: %s, OWNER: %s, WITHDRAW: %s, DEPOSIT: %s" % (
+                    particular_acc_no, owner, withdraw, deposit))
+
+
+def A12(env, particular_pname, parameters_dict):
+    Thresh_MaxAmtOfTotalWithdraw = parameters_dict[
+        "Thresh_MaxAmtOfTotalWithdraw_Customer"] if "Thresh_MaxAmtOfTotalWithdraw_Customer" in parameters_dict else 0
+    Thresh_MaxAmtOfTotalDeposit = parameters_dict[
+        "Thresh_MaxAmtOfTotalDeposit_Customer"] if "Thresh_MaxAmtOfTotalDeposit_Customer" in parameters_dict else 0
+    for fact in env.facts():
+        if fact.template.name == "person-data":
+            if fact["PERSON_ID"] == particular_pname:
+                withdraw = fact["withdraw"]
+                deposit = fact["deposit"]
+                if (withdraw >= Thresh_MaxAmtOfTotalWithdraw) or (deposit >= Thresh_MaxAmtOfTotalDeposit):
+                    print("ALERT: OWNER: %s, WITHDRAW: %s, DEPOSIT: %s" % (particular_pname, withdraw, deposit))
+
+
 if __name__ == '__main__':
     env = clips.Environment()
     facts_filedir = os.path.join(os.path.abspath("."), "facts")
