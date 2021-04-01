@@ -15,5 +15,6 @@
         (>= ?withdraw-sum ?withdraw_limit)
     then
         (printout t "ALERT A18: " ?pname " , withdraw more than " ?withdraw-sum crlf)
+        (assert (ALERT (CODE A18) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
     )
 )

@@ -6,4 +6,5 @@
            (test (>= ?deposit ?max_deposit)))   
      =>
     (printout t "ALERT A11: acc_no: " ?acc_no ", withdraw: " ?withdraw ", deposit: " ?deposit crlf)
+    (assert (ALERT (CODE A11) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
 )

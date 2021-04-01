@@ -15,5 +15,6 @@
         (>= ?deposit-sum ?deposit_limit)
     then
         (printout t "ALERT A18: " ?pname " , deposit more than " ?deposit-sum crlf)
+        (assert (ALERT (CODE A18) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
     )
 )

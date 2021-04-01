@@ -1,5 +1,5 @@
 (defrule A15
-    (account-data (ACCOUNT_NO ?acc_no) (ACTIVE_FLG ?activate))
+    (account-data (owner ?pname) (ACCOUNT_NO ?acc_no) (ACTIVE_FLG ?activate))
     (eq ?activate 1)
     (_withdraw_ (ACCOUNT_NO ?acc_no) (AMOUNT ?amt_w) (DATE ?date_w) (TIME ?time_w))
     (_deposit_ (ACCOUNT_NO ?acc_no) (AMOUNT ?amt_d) (DATE ?date_d) (TIME ?time_d))
@@ -33,4 +33,5 @@
     )
     =>
     (printout t "ALERT A15: ACCOUNT_NO " ?acc_no crlf)
+    (assert (ALERT (CODE A15) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
 )

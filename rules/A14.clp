@@ -14,5 +14,6 @@
         (>= ?balance-sum ?limitation)
     then
         (printout t "ALERT A14: " ?pname " balance: " ?balance-sum crlf)
+        (assert (ALERT (CODE A14) (PERSON_ID ?pname)))
     )
 )
