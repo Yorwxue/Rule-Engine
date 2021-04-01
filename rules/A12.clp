@@ -1,4 +1,4 @@
-(defrule A12-4
+(defrule A12
     (person-data (PERSON_ID ?pname) (withdraw ?withdraw) (deposit ?deposit))
     (Thresh_MaxAmtOfTotalWithdraw_Customer ?max_withdraw)
     (Thresh_MaxAmtOfTotalDeposit_Customer ?max_deposit)

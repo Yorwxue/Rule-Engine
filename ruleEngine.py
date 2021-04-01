@@ -15,6 +15,7 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
+    environment.assert_string("(Thresh_MaxDeposit 10000000)")
 
 
 def A11(env, particular_acc_no, parameters_dict):
