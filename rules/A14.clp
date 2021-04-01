@@ -1,19 +1,10 @@
 (defrule A14
-    (person-data (PERSON_ID ?pname))
-    (Thresh_MaxDeposit ?limitation)
+    (person-data (PERSON_ID ?pname) (balance ?balance) (ACCOUNT_NO $?acc_nos) (numDeposits ?numDeposits))
+    (Thresh_MaxNum_NormalDeposits ?numLimit)
+    (Thresh_MaxDeposit ?amtLimit)
+    (test (>= ?balance ?amtLimit))
+    (test (>= ?numDeposits ?numLimit))
     =>
-    (bind ?balance-sum 0)
-    (do-for-all-facts ((?f account-data)) TRUE
-        (if
-            (eq ?f:owner ?pname)
-        then
-            (bind ?balance-sum (+ ?balance-sum ?f:ACCOUNT_BALANCE))
-        )
-    )
-    (if
-        (>= ?balance-sum ?limitation)
-    then
-        (printout t "ALERT A14: " ?pname " balance: " ?balance-sum crlf)
-        (assert (ALERT (CODE A14) (PERSON_ID ?pname)))
-    )
+    (printout t "ALERT A14: " ?pname " balance: " ?balance " numDeposits: " ?numDeposits crlf)
+    (assert (ALERT (CODE A14) (PERSON_ID ?pname)))
 )

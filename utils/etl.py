@@ -141,7 +141,7 @@ if __name__ == "__main__":
         filters={"SNAP_YYYYMM": "201912"})
 
     # load template
-    extraSlot = {"JOB": "理專", "AGE": "NoData", "DATE_OF_BIRTH": "NoData", "withdraw": 0, "deposit": 0}
+    extraSlot = {"JOB": "理專", "AGE": "NoData", "DATE_OF_BIRTH": "NoData", "withdraw": 0, "deposit": 0, "balance": 0, "numDeposits": 0, "numWithdraws": 0}
     slotNameTransform = {"AGENT_ID": "PERSON_ID"}
 
     # share template with customers
@@ -159,7 +159,7 @@ if __name__ == "__main__":
         filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
         title_list=["SNAP_YYYYMM", "AGENT_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
         filters={"SNAP_YYYYMM": "201912"})
-    extraSlot = {"withdraw": 0, "deposit": 0}
+    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0}
     slotNameTransform = {"AGENT_ID": "owner"}
 
     # share template with customers
@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     # load template
     slotNameTransform = {"CUST_ID": "PERSON_ID"}
-    extraSlot = {"withdraw": 0, "deposit": 0}
+    extraSlot = {"withdraw": 0, "deposit": 0, "balance": 0, "numDeposits": 0, "numWithdraws": 0}
     templateString = genTemplate(
         templateName="person-data",
         slotNames=["SNAP_YYYYMM", "BRANCH_NAME", "JOB", "DATE_OF_BIRTH", "AGE", "CUST_ID"],
@@ -202,7 +202,7 @@ if __name__ == "__main__":
         filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
         title_list=["SNAP_YYYYMM", "CUST_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
         filters={"SNAP_YYYYMM": "201912"})
-    extraSlot = {"withdraw": 0, "deposit": 0}
+    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0}
     slotNameTransform = {"CUST_ID": "owner"}
     # load template
     title_list.append("ACCOUNT_NO")
