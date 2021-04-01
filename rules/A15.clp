@@ -5,14 +5,20 @@
     (ShortPeriod ?period)
     (or
         (and
-            (test (= ?date_w ?date_d))
+            (test (eq ?date_w ?date_d))
             (test (> ?time_w ?time_d))
             (test (<= (- ?time_w ?time_d) ?period))
         )
         (and
-            (test (> ?date_w ?date_d))
-            (test (= (- ?date_w ?date_d) 1))
-
+            (test
+                (=
+                    (-
+                        (A15_1 ?date_w)
+                        (A15_1 ?date_d)
+                    )
+                    1
+                )
+            )
             (test
                 (<=
                     (-

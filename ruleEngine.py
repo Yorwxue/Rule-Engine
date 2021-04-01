@@ -63,10 +63,24 @@ def A12(env, particular_pname, parameters_dict):
                     print("ALERT: OWNER: %s, WITHDRAW: %s, DEPOSIT: %s" % (particular_pname, withdraw, deposit))
 
 
+def definePyFunctions(environment):
+    environment.define_function(A15_1)
+    # print(environment.eval('(python-function A15_1 2019/12/31)'))
+
+
+def A15_1(arg):
+    return int(arg.replace("/", ""))
+
+
 if __name__ == '__main__':
     env = clips.Environment()
     facts_filedir = os.path.join(os.path.abspath("."), "facts")
     rules_filedir = os.path.join(os.path.abspath("."), "rules")
+
+    # extra-template definition
+    templates(env)
+    # define python function
+    definePyFunctions(env)
 
     # generate clips facts
     """
@@ -84,8 +98,6 @@ if __name__ == '__main__':
         with open(filepath, "r") as fr:
             templateString = fr.read()
         env.build(templateString)
-    # extra-template definition
-    templates(env)
 
     # load facts
     facts_file_list = [filename for filename in file_list if "facts" in filename]
