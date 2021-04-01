@@ -28,7 +28,7 @@ CLIPS> (defrules {RULE_NAME}
          =>
          {THEN_STATEMENTS})
 ```
-Note: SEARCH_CONDITION_STATEMENTS will be checked respectively, so it's different then **AND**
+Note: Tuple s of SEARCH_CONDITION_STATEMENTS will all be checked respectively
 1. rules: show rules
 2. defrules: add rules
 3. load: load rules from file

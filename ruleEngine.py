@@ -6,8 +6,8 @@ from utils.etl import node_loader, genTemplate, genFacts
 
 
 def templates(environment):
-    environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot TIME))""")
-    environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot TIME))""")
+    environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
+    environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
 
 
 def conditions(environment):
@@ -15,7 +15,8 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
-    environment.assert_string("(Thresh_MaxDeposit 10000000)")
+    environment.assert_string("(Thresh_MaxDeposit 50000000)")
+    environment.assert_string("(ShortPeriod 010000)")  # HHMMSS
 
 
 def A11(env, particular_acc_no, parameters_dict):
@@ -117,6 +118,7 @@ if __name__ == '__main__':
         rules_filepath = os.path.join(rules_filedir, rules_filename)
         if os.path.isdir(rules_filepath):
             continue
+        print("Building rule %s" % rules_filename)
         with open(rules_filepath, "r") as fr:
             raw_rule_strings_list = fr.readlines()
         raw_rule_strings = (" ".join(raw_rule_strings_list)).replace("\n", "")
