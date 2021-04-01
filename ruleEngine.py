@@ -6,8 +6,8 @@ from utils.etl import node_loader, genTemplate, genFacts
 
 
 def templates(environment):
-    environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
-    environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT))""")
+    environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot TIME))""")
+    environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot TIME))""")
 
 
 def conditions(environment):
@@ -130,7 +130,9 @@ if __name__ == '__main__':
 
     # execute
     env.assert_string("(Init-1)")
+    START = time.time()
     print("Number of activated rules: %d" % env.run())
+    print("Rules execution spent %f seconds" % (time.time() - START))
 
     # # show result
     # for fact in env.facts():
