@@ -11,10 +11,10 @@ def templates(environment):
 
 
 def conditions(environment):
-    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 10000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 10000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 50000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 50000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
 
 
 def A11(env, particular_acc_no, parameters_dict):

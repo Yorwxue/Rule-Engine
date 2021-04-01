@@ -5,5 +5,5 @@
     (or    (test (>= ?withdraw ?max_withdraw))
            (test (>= ?deposit ?max_deposit)))   
      =>
-    (printout t "ALERT: acc_no: " ?acc_no ", withdraw: " ?withdraw ", deposit: " ?deposit crlf)
+    (printout t "ALERT A11: acc_no: " ?acc_no ", withdraw: " ?withdraw ", deposit: " ?deposit crlf)
 )
