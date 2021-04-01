@@ -43,6 +43,25 @@ There are some package for binding python and clips, such as PyKE, PyCLIPS and c
 $ pip install clipspy
 ```
 
+### Customized Function
+clipspy support for customized function by called **define_function**, here is a simple example copy from [SOURCEFORGE](https://sourceforge.net/p/clipsrules/discussion/776945/thread/e001210c/#917d):
+```python
+from clips import Environment
+
+def function(arg):
+    print("I am within a Python function, argument: %f" % arg)
+    return arg
+
+env = Environment()
+env.define_function(function)
+ret = env.eval('(python-function function 42.2)')
+print("Eval returned %f" % ret)
+```
+```bash
+I am within a Python function, argument: 42.200000
+Eval returned 42.200000
+```
+
 ### Extract-Transform-Load
 Due to CLIPS has its own format for data, so we implement some functions for extract data from csv to facts in **utils/etl.py**
 1. **node_loader** can be used to extract csv data into format of list of keys, list of dictionaries of attributes, and it also support filter for attributes.
