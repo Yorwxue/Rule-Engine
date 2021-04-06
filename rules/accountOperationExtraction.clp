@@ -1,5 +1,5 @@
 (defrule accountOperationExtraction
-    ?code <- (Init-2)
+    ?code <- (init-person-data)
     =>
     (bind ?index 0)
     (do-for-all-facts   ((?f account-data)) TRUE

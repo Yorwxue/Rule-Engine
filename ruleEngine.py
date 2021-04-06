@@ -3,11 +3,13 @@ import time
 import clips
 
 from utils.etl import node_loader, genTemplate, genFacts
+from utils.timeFilter import getStartTime, mergeDateAndTime, getNow
 
 
 def templates(environment):
     environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
+    environment.build("""(deftemplate Period (slot months) (slot days) (slot hours) (slot minutes) (slot seconds))""")
     environment.build("""(deftemplate ALERT (slot CODE) (slot PERSON_ID) (slot ACCOUNT_NO))""")
 
 
@@ -17,7 +19,9 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
     environment.assert_string("(Thresh_MaxDeposit 50000000)")
-    environment.assert_string("(ShortPeriod 010000)")  # HHMMSS
+    # environment.assert_string("(ShortPeriod 010000)")  # HHMMSS
+    environment.assert_string("(Period (months 0) (days 3) (hours 0) (minutes 0) (seconds 0))")
+    environment.assert_string("(current-date 20191231000000)")
     environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
 
 
@@ -66,12 +70,11 @@ def A12(env, particular_pname, parameters_dict):
 
 
 def definePyFunctions(environment):
-    environment.define_function(A15_1)
-    # print(environment.eval('(python-function A15_1 2019/12/31)'))
-
-
-def A15_1(arg):
-    return int(arg.replace("/", ""))
+    environment.define_function(getStartTime)
+    environment.define_function(mergeDateAndTime)
+    environment.define_function(getNow)
+    # print(environment.eval('(python-function {FUNCTION_NAME} {ARGS})'))
+    pass
 
 
 if __name__ == '__main__':
@@ -146,17 +149,47 @@ if __name__ == '__main__':
             parameters_dict[fact.template.name] = fact[0]
 
     # execute
-    env.assert_string("(Init-1)")
+    print("=== Execution ===")
     START = time.time()
     print("Number of activated rules: %d" % env.run())
     print("Rules execution spent %f seconds" % (time.time() - START))
 
     # # show result
-    # for fact in env.facts():
-    #     # patricular = "account-data"
-    #     patricular = "person-data"
-    #     if fact.template.name == patricular:
+    # for idx, fact in enumerate(env.facts()):
+    #     patricular = [
+    #         "account-data",
+    #     ]
+    #     if fact.template.name in patricular:
     #         if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
     #             print(fact)
 
     print("done")
+
+    # # test reset
+    # ##################
+    # print("reset ..")
+    # env.assert_string("(resetAccountSignal)")
+    # env.run()
+    # for idx, fact in enumerate(env.facts()):
+    #     patricular = ["account-data"]
+    #     if fact.template.name in patricular:
+    #         if (int(fact["withdraw"]) != 0) or (int(fact["deposit"]) != 0):
+    #             print(fact)
+    # #################
+
+    patricular = [
+        "account-data"
+    ]
+    while True:
+        inputString = input("input instruction:")
+        if inputString == "exit":
+            break
+        try:
+            env.eval(inputString)
+            env.eval("(run)")
+            # for idx, fact in enumerate(env.facts()):
+            #     if fact.template.name in patricular:
+            #         if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
+            #             print(fact)
+        except Exception as e:
+            print(e)

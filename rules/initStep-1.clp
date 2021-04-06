@@ -1,8 +1,9 @@
 (defrule  initStep-1
-    ?code <- (Init-1)
+    ?code <- (init-account-data)
     (not (_withdrawFlag_))
     (not (_depositFlag_))
     =>
     (retract ?code)
-    (assert (Init-2))
+    (assert (init-person-data))
+    (printout t "start to initiate person-data" crlf)
 )
