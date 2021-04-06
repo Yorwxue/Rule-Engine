@@ -1,17 +1,12 @@
 (defrule mergeWithdraw
-    (declare (salience 9999))
-    ?ptr <- (_merge_withdraw_flag_ ?acc_no)
-    ?a <- (account-data (ACCOUNT_NO ?acc_no))
+    ?a <- (account-data (ACCOUNT_NO ?acc_no) (withdraw ?withdraw-accu) (numWithdraws ?numWithdraws-accu))
+    (_withdraw_ (ID ?id) (ACCOUNT_NO ?acc_no) (AMOUNT ?amount))
+    ?ptr <- (_withdrawFlag_  ?id)
     =>
-    (bind ?withdraw-sum 0)
-    (bind ?withdrawCounter 0)
-    (do-for-all-facts   ((?f _withdraw_)) TRUE
-        (if    (eq ?f:ACCOUNT_NO ?acc_no)
-            then
-            (bind ?withdraw-sum (+ ?withdraw-sum ?f:AMOUNT))
-            (bind ?withdrawCounter (+ ?withdrawCounter 1))
-    ))
+    (bind ?withdraw-sum (+ ?withdraw-accu ?amount))
+    (bind ?withdrawCounter (+ ?numWithdraws-accu 1))
+
     (modify ?a (withdraw ?withdraw-sum) (numWithdraws ?withdrawCounter))
+    (printout t "TX_ID: " ?id crlf)
     (retract ?ptr)
-    (assert (mergeWithdraw-done))
 )

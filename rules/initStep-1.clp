@@ -1,8 +1,8 @@
 (defrule  initStep-1
     ?code <- (Init-1)
-    ?ptrD <- (mergeDeposit-done)
-    ?ptrW <- (mergeWithdraw-done)
+    (not (_withdrawFlag_))
+    (not (_depositFlag_))
     =>
-    (retract ?code ?ptrD ?ptrW)
+    (retract ?code)
     (assert (Init-2))
 )
