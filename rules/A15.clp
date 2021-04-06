@@ -31,6 +31,7 @@
             )
         )
     )
+    (not (ALERT (CODE A15) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
     =>
     (printout t "ALERT A15: ACCOUNT_NO " ?acc_no crlf)
     (assert (ALERT (CODE A15) (PERSON_ID ?pname) (ACCOUNT_NO ?acc_no)))
