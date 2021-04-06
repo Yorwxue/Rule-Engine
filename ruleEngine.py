@@ -19,7 +19,7 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
     environment.assert_string("(Thresh_MaxDeposit 50000000)")
-    # environment.assert_string("(ShortPeriod 010000)")  # HHMMSS
+    environment.assert_string("(A15-Period 010000)")  # HHMMSS
     environment.assert_string("(Period (months 0) (days 3) (hours 0) (minutes 0) (seconds 0))")
     environment.assert_string("(current-date 20191231000000)")
     environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
@@ -73,8 +73,13 @@ def definePyFunctions(environment):
     environment.define_function(getStartTime)
     environment.define_function(mergeDateAndTime)
     environment.define_function(getNow)
-    # print(environment.eval('(python-function {FUNCTION_NAME} {ARGS})'))
+    environment.define_function(A15_1)
+    # print(environment.eval('(python-function A15_1 2019/12/31)'))
     pass
+
+
+def A15_1(arg):
+    return int(arg.replace("/", ""))
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@
     (eq ?activate 0)
     (_withdraw_ (ACCOUNT_NO ?acc_no) (AMOUNT ?amt_w) (DATE ?date_w) (TIME ?time_w))
     (_deposit_ (ACCOUNT_NO ?acc_no) (AMOUNT ?amt_d) (DATE ?date_d) (TIME ?time_d))
-    (ShortPeriod ?period)
+    (A15-Period ?period)
     (or
         (and
             (test (eq ?date_w ?date_d))
