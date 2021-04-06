@@ -5,8 +5,6 @@
     =>
     (bind ?withdraw-sum (+ ?withdraw-accu ?amount))
     (bind ?withdrawCounter (+ ?numWithdraws-accu 1))
-
     (modify ?a (withdraw ?withdraw-sum) (numWithdraws ?withdrawCounter))
-    (printout t "TX_ID: " ?id crlf)
     (retract ?ptr)
 )
