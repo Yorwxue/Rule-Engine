@@ -9,19 +9,26 @@ from utils.timeFilter import getStartTime, mergeDateAndTime, getNow
 def templates(environment):
     environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
-    environment.build("""(deftemplate Period (slot months) (slot days) (slot hours) (slot minutes) (slot seconds))""")
+    environment.build("""(deftemplate Period (slot ruleID)(slot months) (slot days) (slot hours) (slot minutes) (slot seconds))""")
+    environment.build("""(deftemplate StartDateTime (slot ruleID) (slot date-time))""")
     environment.build("""(deftemplate ALERT (slot CODE) (slot PERSON_ID) (slot ACCOUNT_NO) (multislot DESCRIPTION))""")
 
 
 def conditions(environment):
+    # debug
+    environment.assert_string("(CurDateTime 20191231000000)")  # YYYYmmddHHMMSS
+
+    # initial
+    environment.assert_string("(Period (ruleID GENERAL)(months 0) (days 7) (hours 0) (minutes 0) (seconds 0))")
+    environment.assert_string("(Period (ruleID A17) (months 0) (days 0) (hours 3) (minutes 0) (seconds 0))")
+    environment.assert_string("(A15-Period 00000000010000)")  # YYYYmmddHHMMSS
+
+    # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
     environment.assert_string("(Thresh_MaxDeposit 50000000)")
-    environment.assert_string("(A15-Period 010000)")  # HHMMSS
-    environment.assert_string("(Period (months 0) (days 3) (hours 0) (minutes 0) (seconds 0))")
-    environment.assert_string("(current-date 20191231000000)")
     environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
 
 
