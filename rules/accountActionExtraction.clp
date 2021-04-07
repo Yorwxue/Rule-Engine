@@ -10,8 +10,6 @@
     )
     =>
     (assert  (_withdraw_ (ID ?TX_ID) (ACCOUNT_NO ?ACCOUNT_NO) (AMOUNT ?TX_AMT) (DATE ?TX_DATE) (TIME ?TX_TIME)))
-    (assert (_withdrawFlag_  ?TX_ID))
     (assert  (_deposit_ (ID ?TX_ID) (ACCOUNT_NO ?COUNTERPARTY_ACCT) (AMOUNT ?TX_AMT) (DATE ?TX_DATE) (TIME ?TX_TIME)))
-    (assert (_depositFlag_  ?TX_ID))
     (assert (init-account-data))
 )

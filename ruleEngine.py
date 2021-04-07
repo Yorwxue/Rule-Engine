@@ -171,7 +171,6 @@ if __name__ == '__main__':
     # for idx, fact in enumerate(env.facts()):
     #     patricular = [
     #         "account-data",
-    #         "StartDateTime"
     #     ]
     #     if fact.template.name in patricular:
     #         if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):
