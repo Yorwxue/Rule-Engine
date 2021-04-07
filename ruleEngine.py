@@ -3,7 +3,7 @@ import time
 import clips
 
 from utils.etl import node_loader, genTemplate, genFacts
-from utils.timeFilter import getStartTime, mergeDateAndTime, getNow
+from utils.timeFilter import getStartTime, mergeDateAndTime, getNow, getDateTimeDelta, timeDelta2Seconds
 
 
 def templates(environment):
@@ -31,6 +31,8 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
     environment.assert_string("(Thresh_MaxDeposit 50000000)")
     environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
+    environment.assert_string("(Thresh_MaxNormalDeposit 100000)")
+    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")
 
 
 def A11(env, particular_acc_no, parameters_dict):
@@ -81,13 +83,10 @@ def definePyFunctions(environment):
     environment.define_function(getStartTime)
     environment.define_function(mergeDateAndTime)
     environment.define_function(getNow)
-    environment.define_function(toDate)
-    # print(environment.eval('(python-function A15_1 2019/12/31)'))
+    environment.define_function(getDateTimeDelta)
+    environment.define_function(timeDelta2Seconds)
+    # print(environment.eval('(python-function {FUNCTION_NAME} {INPUT_PARAMETER_1} {INPUT_PARAMETER_2} {...})'))
     pass
-
-
-def toDate(arg):
-    return int(arg.replace("/", ""))
 
 
 if __name__ == '__main__':
