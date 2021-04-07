@@ -1,12 +1,11 @@
 (defrule  accountActionExtraction
-    (declare (salience 10000))
+    (declare (salience 5000))
     (flow-data (TX_ID ?TX_ID) (ACCOUNT_NO ?ACCOUNT_NO) (COUNTERPARTY_ACCT ?COUNTERPARTY_ACCT) (TX_AMT ?TX_AMT) (TX_DATE ?TX_DATE) (TX_TIME ?TX_TIME))
-    (Period (months ?months) (days ?days) (hours ?hours) (minutes ?minutes) (seconds ?seconds))
-    (current-date ?curDate)
+    (StartDateTime (ruleID GENERAL) (date-time ?start-datetime))
     (test
         (>=
             (mergeDateAndTime ?TX_DATE ?TX_TIME)
-            (getStartTime ?curDate ?months ?days ?hours ?minutes ?seconds)
+            ?start-datetime
         )
     )
     =>
