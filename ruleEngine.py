@@ -2,11 +2,12 @@ import os
 import time
 import clips
 
-from utils.etl import node_loader, genTemplate, genFacts
+# from utils.etl import node_loader, genTemplate, genFacts
 from utils.timeFilter import getStartTime, mergeDateAndTime, getNow, getDateTimeDelta, timeDelta2Seconds
 
 
 def templates(environment):
+    # environment.build("""(deftemplate _account_ (slot ruleID) (slot ACCOUNT_NO) (slot owner) (slot ACTIVE_FLG) (slot ACCOUNT_BALANCE) (slot withdraw) (slot deposit) (slot numDeposits) (slot numWithdraws))""")
     environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate Period (slot ruleID) (slot days) (slot hours) (slot minutes) (slot seconds))""")
@@ -22,7 +23,8 @@ def conditions(environment):
     environment.assert_string("(Period (ruleID GENERAL) (days 7) (hours 0) (minutes 0) (seconds 0))")  # period of all data for rule engine
     environment.assert_string("(Period (ruleID COMMON) (days 1) (hours 0) (minutes 0) (seconds 0))")  # period of data for common rules
     environment.assert_string("(Period (ruleID A15) (days 0) (hours 1) (minutes 0) (seconds 0))")
-    environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
+    # environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
+    environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
 
     # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")
@@ -31,8 +33,9 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
     environment.assert_string("(Thresh_MaxDeposit 50000000)")
     environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
-    environment.assert_string("(Thresh_MaxNormalDeposit 100000)")
-    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")
+    environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  #A1A
+    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A1A
+    environment.assert_string("(CloseAmount 10000)")  # A1A
 
 
 def A11(env, particular_acc_no, parameters_dict):
