@@ -9,7 +9,7 @@ from utils.timeFilter import getStartTime, mergeDateAndTime, getNow
 def templates(environment):
     environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
-    environment.build("""(deftemplate Period (slot ruleID)(slot months) (slot days) (slot hours) (slot minutes) (slot seconds))""")
+    environment.build("""(deftemplate Period (slot ruleID) (slot days) (slot hours) (slot minutes) (slot seconds))""")
     environment.build("""(deftemplate StartDateTime (slot ruleID) (slot date-time))""")
     environment.build("""(deftemplate ALERT (slot CODE) (slot PERSON_ID) (slot ACCOUNT_NO) (multislot DESCRIPTION))""")
 
@@ -19,10 +19,10 @@ def conditions(environment):
     environment.assert_string("(CurDateTime 20191231000000)")  # YYYYmmddHHMMSS
 
     # initial
-    environment.assert_string("(Period (ruleID GENERAL)(months 0) (days 7) (hours 0) (minutes 0) (seconds 0))")  # period of all data for rule engine
-    environment.assert_string("(Period (ruleID COMMON)(months 0) (days 1) (hours 0) (minutes 0) (seconds 0))")  # period of data for common rules
-    environment.assert_string("(Period (ruleID A17) (months 0) (days 0) (hours 3) (minutes 0) (seconds 0))")
-    environment.assert_string("(A15-Period 00000000010000)")  # YYYYmmddHHMMSS
+    environment.assert_string("(Period (ruleID GENERAL) (days 7) (hours 0) (minutes 0) (seconds 0))")  # period of all data for rule engine
+    environment.assert_string("(Period (ruleID COMMON) (days 1) (hours 0) (minutes 0) (seconds 0))")  # period of data for common rules
+    environment.assert_string("(Period (ruleID A15) (days 0) (hours 1) (minutes 0) (seconds 0))")
+    environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
 
     # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")
@@ -81,12 +81,12 @@ def definePyFunctions(environment):
     environment.define_function(getStartTime)
     environment.define_function(mergeDateAndTime)
     environment.define_function(getNow)
-    environment.define_function(A15_1)
+    environment.define_function(toDate)
     # print(environment.eval('(python-function A15_1 2019/12/31)'))
     pass
 
 
-def A15_1(arg):
+def toDate(arg):
     return int(arg.replace("/", ""))
 
 

@@ -8,18 +8,17 @@ def getNow():
     return outDateString
 
 
-def getStartTime(InDateString, months=0, days=0, hours=0, minutes=0, seconds=0):
+def getStartTime(InDateString, days=0, hours=0, minutes=0, seconds=0):
     """
     Computer the start time given deadline and period
     :param InDateString: deadline in string format
-    :param months: number of months in period
     :param hours: number of hours in period
     :param minutes: number of minutes in period
     :return: start time
     """
     _in_date_ = datetime.datetime.strptime(str(InDateString), "%Y%m%d%H%M%S")
     period = datetime.timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
-    _out_date_ = _in_date_ - period - relativedelta(months=months)
+    _out_date_ = _in_date_ - period  # - relativedelta(months=months)
     outDateString = datetime.datetime.strftime(_out_date_, "%Y%m%d%H%M%S")
     return int(outDateString)
 
