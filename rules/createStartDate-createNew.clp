@@ -5,5 +5,4 @@
     =>
     (bind ?start-datetime (getStartTime ?current-datetime ?months ?days ?hours ?minutes ?seconds))
     (assert (StartDateTime (ruleID ?rule-id) (date-time ?start-datetime)))
-    (printout t "rule: " ?rule-id ", start datetime: " ?start-datetime crlf)
 )

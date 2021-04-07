@@ -19,7 +19,8 @@ def conditions(environment):
     environment.assert_string("(CurDateTime 20191231000000)")  # YYYYmmddHHMMSS
 
     # initial
-    environment.assert_string("(Period (ruleID GENERAL)(months 0) (days 7) (hours 0) (minutes 0) (seconds 0))")
+    environment.assert_string("(Period (ruleID GENERAL)(months 0) (days 7) (hours 0) (minutes 0) (seconds 0))")  # period of all data for rule engine
+    environment.assert_string("(Period (ruleID COMMON)(months 0) (days 1) (hours 0) (minutes 0) (seconds 0))")  # period of data for common rules
     environment.assert_string("(Period (ruleID A17) (months 0) (days 0) (hours 3) (minutes 0) (seconds 0))")
     environment.assert_string("(A15-Period 00000000010000)")  # YYYYmmddHHMMSS
 
@@ -170,6 +171,7 @@ if __name__ == '__main__':
     # for idx, fact in enumerate(env.facts()):
     #     patricular = [
     #         "account-data",
+    #         "StartDateTime"
     #     ]
     #     if fact.template.name in patricular:
     #         if (int(fact["withdraw"]) > 0) or (int(fact["deposit"]) > 0):

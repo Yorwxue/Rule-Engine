@@ -2,6 +2,7 @@
     (declare (salience 10000))
     ?c1 <- (CurDateTime ?current-datetime-1)
     ?c2 <- (CurDateTime ?current-datetime-2)
+    (test (neq ?current-datetime-1 ?current-datetime-2))
     =>
     (bind ?current-datetime-new (max ?current-datetime-1 ?current-datetime-2))
     (assert (CurDateTime ?current-datetime-new))
