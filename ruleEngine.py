@@ -27,14 +27,14 @@ def conditions(environment):
     environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
 
     # parameters
-    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")
-    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")
-    environment.assert_string("(Thresh_MaxDeposit 50000000)")
-    environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")
-    environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  #A1A
-    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A1A
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")  # A11
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit 5000000)")  # A11
+    environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")  # A12
+    environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")  # A12
+    environment.assert_string("(Thresh_MaxDeposit 50000000)")  # A14
+    environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")  # A14
+    environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  # A15, A1A
+    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A
     environment.assert_string("(CloseAmount 10000)")  # A1A
 
 
