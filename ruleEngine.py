@@ -36,6 +36,7 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  # A15, A1A
     environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A
     environment.assert_string("(CloseAmount 10000)")  # A1A
+    environment.assert_string("(Thresh_MaxAmt_OverseaWireIn 10000000)")  # AB1
 
 
 def A11(env, particular_acc_no, parameters_dict):

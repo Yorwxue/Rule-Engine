@@ -159,7 +159,7 @@ if __name__ == "__main__":
         filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
         title_list=["SNAP_YYYYMM", "AGENT_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
         filters={"SNAP_YYYYMM": "201912"})
-    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0}
+    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0, "oversea": 0}
     slotNameTransform = {"AGENT_ID": "owner"}
 
     # share template with customers
@@ -202,7 +202,7 @@ if __name__ == "__main__":
         filepath=filepath, node_label="account-data", node_id_title="ACCOUNT_NO",
         title_list=["SNAP_YYYYMM", "CUST_ID", "BRANCH_NAME", "ACTIVE_FLG", "OVERDUE_FLG", "ACCOUNT_BALANCE"],
         filters={"SNAP_YYYYMM": "201912"})
-    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0}
+    extraSlot = {"withdraw": 0, "deposit": 0, "numDeposits": 0, "numWithdraws": 0, "oversea": 0}
     slotNameTransform = {"CUST_ID": "owner"}
     # load template
     title_list.append("ACCOUNT_NO")
