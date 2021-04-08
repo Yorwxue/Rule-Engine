@@ -150,6 +150,8 @@ if __name__ == '__main__':
         rules_filepath = os.path.join(rules_filedir, rules_filename)
         if os.path.isdir(rules_filepath):
             continue
+        if ".clp" not in rules_filepath:
+            continue
         print("Building rule %s" % rules_filename)
         with open(rules_filepath, "r") as fr:
             raw_rule_strings_list = fr.readlines()
