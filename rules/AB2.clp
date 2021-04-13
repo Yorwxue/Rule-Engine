@@ -27,5 +27,5 @@
         )
     )
     =>
-    (printout t "ALERT AB2: PERSON_ID: " ?pname ", total tx_id of imports: " ?TX_ID ", tx_id of withdraw: " ?id_w  crlf))
+    (printout t "ALERT AB2: PERSON_ID: " ?pname ", tx_id of imports: " ?TX_ID ", tx_id of withdraw: " ?id_w  crlf))
 )

@@ -29,6 +29,7 @@ def conditions(environment):
     environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
     environment.assert_string("(Period (ruleID AB1) (days 3) (hours 0) (minutes 0) (seconds 0))")  # oversea
     environment.assert_string("(Period (ruleID AB2) (days 0) (hours 3) (minutes 0) (seconds 0))")  # oversea
+    environment.assert_string("(Period (ruleID AB3) (days 0) (hours 3) (minutes 0) (seconds 0))")  # oversea
 
     # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")  # A11

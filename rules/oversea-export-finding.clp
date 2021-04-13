@@ -5,5 +5,5 @@
     (_withdraw_  (ID ?TX_ID) (ACCOUNT_NO ?acc_no_w) (AMOUNT ?amt) (DATE ?date) (TIME ?time))
     (_deposit_  (ID ?TX_ID) (ACCOUNT_NO ?acc_no_d))
     =>
-    (assert (oversea (direction export) (PERSON_ID ?owner) (TX_ID ?TX_ID) (AMOUNT ?amt) (DATE ?date) (TIME ?time)))
+    (assert (oversea (direction export) (PERSON_ID ?owner) (TX_ID ?TX_ID) (AMOUNT ?amt) (DATE ?date) (TIME ?time)  (domesticAccount ?acc_no_w)))
 )
