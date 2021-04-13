@@ -13,7 +13,7 @@ def templates(environment):
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate Period (slot ruleID) (slot days) (slot hours) (slot minutes) (slot seconds))""")
     environment.build("""(deftemplate StartDateTime (slot ruleID) (slot date-time))""")
-    environment.build("""(deftemplate oversea (slot type) (slot PERSON_ID) (slot TX_ID) (slot AMOUNT) (slot DATE) (slot TIME))""")
+    environment.build("""(deftemplate oversea (slot direction) (slot PERSON_ID) (slot TX_ID) (slot AMOUNT) (slot DATE) (slot TIME) (slot domesticAccount))""")
     environment.build("""(deftemplate ALERT (slot CODE) (slot PERSON_ID) (slot ACCOUNT_NO) (multislot DESCRIPTION))""")
 
 
@@ -28,6 +28,7 @@ def conditions(environment):
     # environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
     environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
     environment.assert_string("(Period (ruleID AB1) (days 3) (hours 0) (minutes 0) (seconds 0))")  # oversea
+    environment.assert_string("(Period (ruleID AB2) (days 0) (hours 3) (minutes 0) (seconds 0))")  # oversea
 
     # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")  # A11
@@ -39,8 +40,9 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  # A15, A1A
     environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A
     environment.assert_string("(CloseAmount 10000)")  # A1A
-    environment.assert_string("(Thresh_MaxAmt_OverseaWireIn 10000000)")  # AB1
+    environment.assert_string("(Thresh_AccumulateAmtWires 10000000)")  # AB1
     environment.assert_string("(Thresh_MaxNo_OverseaWires 10)")  # AB1
+    environment.assert_string("(Thresh_MaxAmt_OverseaWireIn 1000000)")  # AB2
 
 
 def A11(env, particular_acc_no, parameters_dict):
@@ -145,13 +147,14 @@ if __name__ == '__main__':
         with open(filepath, "r") as fr:
             facts_string = fr.read()
         env.load_facts(facts_string.replace("\n", ""))
-        print("Load facts spent %f seconds" % (time.time() - START))
+        print("Loading facts spent %f seconds" % (time.time() - START))
         # """
     # for fact in env.facts():
     #     print(fact)
 
     # load rules
     for rules_filename in os.listdir(rules_filedir):
+        START = time.time()
         rules_filepath = os.path.join(rules_filedir, rules_filename)
         if os.path.isdir(rules_filepath):
             continue
@@ -162,6 +165,7 @@ if __name__ == '__main__':
             raw_rule_strings_list = fr.readlines()
         raw_rule_strings = (" ".join(raw_rule_strings_list)).replace("\n", "")
         env.build(raw_rule_strings)
+        print("building rule spent %f seconds" % (time.time() - START))
 
     # set conditions
     conditions(env)
