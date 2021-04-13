@@ -1,5 +1,6 @@
 (defrule resetPersonClean
-    ?f <- (person-data (PERSON_ID ?pname))
+    (declare (salience 9997))
+    ?f <- (_person-data_ (PERSON_ID ?pname))
     ?code <- (resetPerson ?pname)
     =>
     (bind ?zero 0)

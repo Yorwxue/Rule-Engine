@@ -7,11 +7,13 @@ from utils.timeFilter import getStartTime, mergeDateAndTime, getNow, getDateTime
 
 
 def templates(environment):
-    # environment.build("""(deftemplate _account_ (slot ruleID) (slot ACCOUNT_NO) (slot owner) (slot ACTIVE_FLG) (slot ACCOUNT_BALANCE) (slot withdraw) (slot deposit) (slot numDeposits) (slot numWithdraws))""")
+    environment.build("""(deftemplate _account-data_ (slot ruleID) (slot owner) (slot ACCOUNT_BALANCE) (slot ACCOUNT_NO) (slot withdraw) (slot deposit) (slot numDeposits) (slot numWithdraws) (slot oversea-import) (slot oversea-export) (slot oversea-numImports) (slot oversea-numExports))""")
+    environment.build("""(deftemplate _person-data_ (slot ruleID) (slot PERSON_ID) (slot balance) (slot withdraw) (slot deposit) (slot numDeposits) (slot numWithdraws) (slot oversea-import) (slot oversea-export) (slot oversea-numImports) (slot oversea-numExports))""")
     environment.build("""(deftemplate _withdraw_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate _deposit_ (slot ID) (slot ACCOUNT_NO) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate Period (slot ruleID) (slot days) (slot hours) (slot minutes) (slot seconds))""")
     environment.build("""(deftemplate StartDateTime (slot ruleID) (slot date-time))""")
+    environment.build("""(deftemplate oversea (slot type) (slot PERSON_ID) (slot TX_ID) (slot AMOUNT) (slot DATE) (slot TIME))""")
     environment.build("""(deftemplate ALERT (slot CODE) (slot PERSON_ID) (slot ACCOUNT_NO) (multislot DESCRIPTION))""")
 
 
@@ -25,6 +27,7 @@ def conditions(environment):
     environment.assert_string("(Period (ruleID A15) (days 0) (hours 1) (minutes 0) (seconds 0))")
     # environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
     environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
+    environment.assert_string("(Period (ruleID AB1) (days 3) (hours 0) (minutes 0) (seconds 0))")  # oversea
 
     # parameters
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw 5000000)")  # A11
@@ -37,6 +40,7 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A
     environment.assert_string("(CloseAmount 10000)")  # A1A
     environment.assert_string("(Thresh_MaxAmt_OverseaWireIn 10000000)")  # AB1
+    environment.assert_string("(Thresh_MaxNo_OverseaWires 10)")  # AB1
 
 
 def A11(env, particular_acc_no, parameters_dict):

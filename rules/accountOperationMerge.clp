@@ -1,5 +1,6 @@
 (defrule accountOperationMerge
-    ?p <- (person-data (PERSON_ID ?pname) (withdraw ?withdraw_accu) (deposit ?deposit_accu) (balance ?balance_accu) (numWithdraws ?numWithdraws_accu) (numDeposits ?numDeposits_accu))
+    (declare (salience 4998))
+    ?p <- (_person-data_ (PERSON_ID ?pname) (withdraw ?withdraw_accu) (deposit ?deposit_accu) (balance ?balance_accu) (numWithdraws ?numWithdraws_accu) (numDeposits ?numDeposits_accu))
     ?f <- (_person_ ?pname ?no ?withdraw ?deposit ?balance ?numWithdraws ?numDeposits)
     =>
     (bind ?withdraw_sum (+ ?withdraw_accu ?withdraw))

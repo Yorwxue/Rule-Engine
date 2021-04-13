@@ -1,5 +1,6 @@
 (defrule A11
-    (account-data (owner ?pname) (ACCOUNT_NO ?acc_no) (withdraw ?withdraw) (deposit ?deposit))
+    (account-data (owner ?pname) (ACCOUNT_NO ?acc_no))
+    (_account-data_ (ACCOUNT_NO ?acc_no) (withdraw ?withdraw) (deposit ?deposit))
     (Thresh_MaxAmtOfTotalWithdraw ?max_withdraw)
     (Thresh_MaxAmtOfTotalDeposit ?max_deposit)
     (or (test (>= ?withdraw ?max_withdraw))

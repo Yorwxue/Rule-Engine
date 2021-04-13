@@ -1,5 +1,6 @@
 (defrule mergeWithdraw
-    ?a <- (account-data (ACCOUNT_NO ?acc_no) (withdraw ?withdraw-accu) (numWithdraws ?numWithdraws-accu))
+    (declare (salience 5000))
+    ?a <- (_account-data_ (ACCOUNT_NO ?acc_no) (withdraw ?withdraw-accu) (numWithdraws ?numWithdraws-accu))
     (_withdraw_ (ID ?id) (ACCOUNT_NO ?acc_no) (AMOUNT ?amount))
     ?ptr <- (_withdrawFlag_  ?id)
     =>

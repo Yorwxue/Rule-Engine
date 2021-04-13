@@ -1,5 +1,6 @@
 (defrule mergeDeposit
-    ?a <- (account-data (ACCOUNT_NO ?acc_no) (deposit ?deposit-accu) (numDeposits ?numDeposits-accu))
+    (declare (salience 5000))
+    ?a <- (_account-data_ (ACCOUNT_NO ?acc_no) (deposit ?deposit-accu) (numDeposits ?numDeposits-accu))
     (_deposit_ (ID ?id) (ACCOUNT_NO ?acc_no) (AMOUNT ?amount))
     ?ptr <- (_depositFlag_  ?id)
     =>
