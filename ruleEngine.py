@@ -37,7 +37,7 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")  # A12
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")  # A12
     environment.assert_string("(Thresh_MaxDeposit 50000000)")  # A14
-    environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")  # A14, A17
+    environment.assert_string("(Thresh_MaxNum_NormalDeposits 3)")  # A14, A17, A18
     environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  # A15, A1A
     environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A, A17
     environment.assert_string("(CloseAmount 10000)")  # A1A, AB2, AB3
