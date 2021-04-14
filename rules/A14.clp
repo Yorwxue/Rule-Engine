@@ -1,6 +1,6 @@
 (defrule A14
     (person-data (PERSON_ID ?pname) (ACCOUNT_NO $?acc_nos))
-    (_person-data_ (PERSON_ID ?pname) (balance ?balance) (numDeposits ?numDeposits))
+    (_person-data_ (ruleID common) (PERSON_ID ?pname) (balance ?balance) (numDeposits ?numDeposits))
     (Thresh_MaxNum_NormalDeposits ?numLimit)
     (Thresh_MaxDeposit ?amtLimit)
     (test (>= ?balance ?amtLimit))

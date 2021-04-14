@@ -2,7 +2,7 @@
     (Thresh_MaxNo_OverseaWires ?Thresh_MaxNo_OverseaWires)
     (Thresh_AccumulateAmtWires ?Thresh_AccumulateAmtWires)
 
-    (_person-data_ (PERSON_ID ?pname) (oversea-export ?total-export))
+    (_person-data_ (ruleID common) (PERSON_ID ?pname) (oversea-export ?total-export))
     (test (>=
         ?total-export
         ?Thresh_AccumulateAmtWires

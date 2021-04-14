@@ -1,5 +1,5 @@
 (defrule A12
-    (_person-data_ (PERSON_ID ?pname) (withdraw ?withdraw) (deposit ?deposit))
+    (_person-data_ (ruleID common) (PERSON_ID ?pname) (withdraw ?withdraw) (deposit ?deposit))
     (Thresh_MaxAmtOfTotalWithdraw_Customer ?max_withdraw)
     (Thresh_MaxAmtOfTotalDeposit_Customer ?max_deposit)
     (or (test (>= ?withdraw ?max_withdraw))
