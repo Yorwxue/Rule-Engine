@@ -25,7 +25,7 @@ def conditions(environment):
     environment.assert_string("(Period (ruleID GENERAL) (days 7) (hours 0) (minutes 0) (seconds 0))")  # period of all data for rule engine
     environment.assert_string("(Period (ruleID COMMON) (days 1) (hours 0) (minutes 0) (seconds 0))")  # period of data for common rules
     environment.assert_string("(Period (ruleID A15) (days 0) (hours 1) (minutes 0) (seconds 0))")
-    # environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
+    environment.assert_string("(Period (ruleID A17) (days 0) (hours 3) (minutes 0) (seconds 0))")
     environment.assert_string("(Period (ruleID A1A) (days 0) (hours 0) (minutes 30) (seconds 0))")
     environment.assert_string("(Period (ruleID AB1) (days 3) (hours 0) (minutes 0) (seconds 0))")  # oversea
     environment.assert_string("(Period (ruleID AB2) (days 0) (hours 3) (minutes 0) (seconds 0))")  # oversea
@@ -37,9 +37,9 @@ def conditions(environment):
     environment.assert_string("(Thresh_MaxAmtOfTotalWithdraw_Customer 5000000)")  # A12
     environment.assert_string("(Thresh_MaxAmtOfTotalDeposit_Customer 5000000)")  # A12
     environment.assert_string("(Thresh_MaxDeposit 50000000)")  # A14
-    environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")  # A14
+    environment.assert_string("(Thresh_MaxNum_NormalDeposits 1)")  # A14, A17
     environment.assert_string("(Thresh_MaxNormalDeposit 100000)")  # A15, A1A
-    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A
+    environment.assert_string("(Thresh_MaxNormalWithdraw 100000)")  # A15, A1A, A17
     environment.assert_string("(CloseAmount 10000)")  # A1A, AB2, AB3
     environment.assert_string("(Thresh_AccumulateAmtWires 10000000)")  # AB1
     environment.assert_string("(Thresh_MaxNo_OverseaWires 10)")  # AB1, A33
