@@ -8,12 +8,15 @@
     (test (>=
         (length$
             (find-all-facts ((?f _deposit_))
-                (<=
-                    (getDateTimeDelta
-                        (mergeDateAndTime ?f:DATE ?f:TIME)
-                        (mergeDateAndTime ?date_w ?time_w)
+                (and
+                    (eq ?f:ACCOUNT_NO ?acc_no)
+                    (<=
+                        (getDateTimeDelta
+                            (mergeDateAndTime ?f:DATE ?f:TIME)
+                            (mergeDateAndTime ?date_w ?time_w)
+                        )
+                        (timeDelta2Seconds ?days ?hours ?minutes ?seconds)
                     )
-                    (timeDelta2Seconds ?days ?hours ?minutes ?seconds)
                 )
             )
         )
